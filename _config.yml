@@ -4,7 +4,7 @@
 # --------------------------
 title: The Techie Crunch                          # the main title
 
-tagline: A text-focused Jekyll theme   # it will display as the sub-title
+tagline:    # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   Web technologies | Dot Net | Asp.net MVC Core | Web API | SQL Server | JavaScript | jQuery | Angular | SharePoint Online | Microsoft 365 | Azure | Power Automate
