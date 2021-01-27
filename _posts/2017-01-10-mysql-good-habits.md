@@ -1,5 +1,5 @@
 ---
-title: MySQL - Good Habits
+title: "MySQL - Good Habits"
 date: 2017-01-10 20:55:00 +0530
 categories: [MySQL, Database]
 tags: [MySQL, Stored Procedure, Good Habits]
