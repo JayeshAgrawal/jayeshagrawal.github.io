@@ -6,7 +6,7 @@ tags: [MySQL, Stored Procedure, Good Habits]
 seo:
   date_modified: 2021-01-27 01:55:41 +0530
 ---
-In this article, we are going to learn few good habits that we can consider important aspect while work with MySQL to improve performance & troubleshoot as following below:
+In this article, we are going to learn few good habits that we can consider important aspect while work with MySQL to improve performance & troubleshoot as following below-
 
 ##1 - Do not use stored procedure & function parameters name same as WHERE clause field name
 >It will be responding with all record of query because MySQL interprets field value as parameter value similar like 1=1.
