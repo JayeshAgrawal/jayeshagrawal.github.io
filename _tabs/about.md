@@ -3,10 +3,16 @@ title: About
 icon: fas fa-info
 order: 4
 ---
-#### Jayesh Agrawal
-I am developer and mostly exploring on Microsoft Technology stack & Web Technology.
+### Jayesh Agrawal
+## Full Stack Developer with 6 years of experience.
+I Worked on major projects for the private industry, and also want to contribute in open source projects, with expertise in web development.
 
-Find me on
+Mostly I am writing article on Microsoft Technology stack and Web Technology as well.
+
+I have wide experience developing CMS systems, focusing on scalability, performance, UX, and accessibility. I know many modern technologies, and I am capable of working on a variety of projects that uses different technology stacks.
+
+If you are looking for a qualified developer for a project, consulting or specific role, contact me on
+
 - [GitHub](https://github.com/JayeshAgrawal)
 - [LinkedIn](https://www.linkedin.com/in/jayeshagrawal001/)
 - [Twitter](https://twitter.com/JayeshAgrawal01)
