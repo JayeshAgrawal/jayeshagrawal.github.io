@@ -3,9 +3,9 @@ title: About
 icon: fas fa-info
 order: 4
 ---
-### Jayesh Agrawal
-## Full Stack Developer with 6 years of experience.
-I Worked on major projects for the private industry, and also want to contribute in open source projects, with expertise in web development.
+## Jayesh Agrawal
+### Full Stack Developer with 6 years of experience.
+I worked on major projects for the private industry, and also want to contribute in open source projects, with expertise in web development.
 
 Mostly I am writing article on Microsoft Technology stack and Web Technology as well.
 
