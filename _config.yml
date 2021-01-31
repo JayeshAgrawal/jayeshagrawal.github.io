@@ -51,7 +51,7 @@ timezone: Asia/Kolkata
 
 google_analytics:
   # google_analytics: UA-144636918-1 Fill with your Google Analytics ID
-  id: ''
+  id: 'G-SQCWQ8R9Z7'
   # The Google Analytics pageviews switch.
   # DO NOT enable it unless you know how to deploy the Google Analytics superProxy.
   pv: false
