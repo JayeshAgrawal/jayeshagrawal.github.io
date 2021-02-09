@@ -26,13 +26,13 @@ Suppose that we have a 'Product' list which has around 5700+ records in the list
 Column Name         |   Datatype
 -------------------------------------------
 Name                |   Single line of text
--------------------------------------------
+
 MfgYear             |   Single line of text
--------------------------------------------
+
 Price               |   Currency
--------------------------------------------
+
 IsDiscount          |   Yes/No
--------------------------------------------
+
 
 If we want to create a view base on some condition like 'MfgYear' equal to 2017 which is querying record of Product list, it will display a List view threshold warning message instead of records because we will be querying 5000+ records.
 
