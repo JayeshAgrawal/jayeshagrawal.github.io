@@ -16,7 +16,6 @@ According to Microsoft, the number of records storage limit is 30 million in Sha
 When we have more than 5000 records in list, we are not able to access/create custom views, lookup, do records search, filter & sort with list and we will get this type of warning message in SharePoint online:
 
 ![Warning Message](https://2.bp.blogspot.com/-Xp5pRBWlBOo/W0DSX-kd75I/AAAAAAAAAe0/KHJIaPhiBVMjObDY0wYHnRZ_BgNqfY-rwCLcBGAs/s640/Untitled1.png)
-
 ## Workaround
 - By default, the list view threshold is configured at 5,000 items.
 - If SharePoint is an on-premise server, we can increase items of the list view threshold. But it is not possible to increase items of List view threshold with SharePoint online because it uses the Large List Resource Throttling feature.
@@ -27,15 +26,17 @@ Suppose that we have a 'Product' list which has around 5700+ records in the list
 Column Name         |   Datatype
 -------------------------------------------
 Name                |   Single line of text
-
+-------------------------------------------
 MfgYear             |   Single line of text
-
+-------------------------------------------
 Price               |   Currency
-
+-------------------------------------------
 IsDiscount          |   Yes/No
+-------------------------------------------
 
-- If we want to create a view base on some condition like 'MfgYear' equal to 2017 which is querying record of Product list, it will display a List view threshold warning message instead of records because we will be querying 5000+ records.
-- To display records in view, we will add index on 'MfgYear' Column and if filtering record criteria of this ‘MfgYear’ column is fewer than 5000 records it will be displayed records.
+If we want to create a view base on some condition like 'MfgYear' equal to 2017 which is querying record of Product list, it will display a List view threshold warning message instead of records because we will be querying 5000+ records.
+
+To display records in view, we will add index on 'MfgYear' Column and if filtering record criteria of this ‘MfgYear’ column is fewer than 5000 records it will be displayed records.
 
 ## Note 
 If we exceeded the List View Threshold and have been blocked, we can normally still add indexes to columns when we have fewer than 20,000 items in our list or library.
