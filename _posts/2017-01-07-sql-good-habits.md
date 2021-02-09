@@ -4,6 +4,8 @@ author: "Jayesh Agrawal"
 date: 2017-01-07 20:55:00 +0530
 categories: [MySQL]
 tags: [Database, StoredProcedure, GoodHabits]
+seo:
+  date_modified: 2021-02-08 01:55:41 +0530
 ---
 
 In this article, we are going to learn few good habits that we can consider important aspect while work with MySQL to improve performance & troubleshoot as following below:
