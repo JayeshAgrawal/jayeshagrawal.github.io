@@ -13,7 +13,7 @@ In this article, we will learn about how we can work with SharePoint Online List
 According to Microsoft, the number of records storage limit is 30 million in SharePoint List & Library and the size of an individual file item or item attachment 10 gigabytes. Let's see this issue and its workaround in details:
 
 ## Issue
-- When we have more than 5000 records in list, we are not able to access/create custom views, lookup, do records search, filter & sort with list and we will get this type of warning message in SharePoint online:
+When we have more than 5000 records in list, we are not able to access/create custom views, lookup, do records search, filter & sort with list and we will get this type of warning message in SharePoint online:
 
 ![Warning Message](https://2.bp.blogspot.com/-Xp5pRBWlBOo/W0DSX-kd75I/AAAAAAAAAe0/KHJIaPhiBVMjObDY0wYHnRZ_BgNqfY-rwCLcBGAs/s640/Untitled1.png)
 
@@ -27,8 +27,11 @@ Suppose that we have a 'Product' list which has around 5700+ records in the list
 Column Name         |   Datatype
 -------------------------------------------
 Name                |   Single line of text
+
 MfgYear             |   Single line of text
+
 Price               |   Currency
+
 IsDiscount          |   Yes/No
 
 - If we want to create a view base on some condition like 'MfgYear' equal to 2017 which is querying record of Product list, it will display a List view threshold warning message instead of records because we will be querying 5000+ records.
@@ -42,7 +45,6 @@ Now, we will perform some use case operation with list as following:
 - Delete records based on condition.
 
 Let's see in detail:
-
 # Update List column data based on another column
 If we want to add a new column ‘DiscountPrice’ in that list and update that column data based on 'Price' which record have 'IsDiscount' is true and 'MfgYear' is 2017. But If we will use COSM or REST then, we will not be able to directly fetch those records due to List Threshold Warning.
 
@@ -96,11 +98,11 @@ using (ClientContext context = new ClientContext(siteUrl))
 } 
 ``` 
 # Delete records based on condition
-Suppose we want to delete records in which Price column will have zero value from 'Product' list, but we will not be directly filtering records due to the list threshold limit warning. And if we will delete each record one by one it will be very time consuming.
-So, we will be again taking 200 rows view batch using CAML query and deleting records in batch.
+Suppose we want to delete records in which Price column will have zero value from 'Product' list, but we will not be directly filtering records due to the list threshold limit warning. And if we will delete each record one by one it will be very time consuming. So, we will be again taking 200 rows view batch using CAML query and deleting records in batch.
+
 If we want to delete all records from 'Product' list, then we will not need to filter records.
-In such cases we will not use 'ListItemCollectionPosition' property because List Item Position will be moved automatically after deleting each record.
-Please refer to the below code snippet to see how we can update list records:
+
+In such cases we will not use 'ListItemCollectionPosition' property because List Item Position will be moved automatically after deleting each record. Please refer to the below code snippet to see how we can update list records:
 
 ```c#
 using (ClientContext context = new ClientContext(siteUrl))  
