@@ -13,6 +13,7 @@ seo:
 In this article, we are going to create an email reminder notification based on an expiration date using Power Automate. We will create a flow that’s run daily that reads & filters data from a SharePoint list that has list items that expire in the next 5 days. Then it will send an expiration notification email to a particular user.
  
 ## SharePoint List - "ProductSales"
+
  | Columns    | Type      |
  |------------|-----------|
  | Title	    | Text      |

@@ -21,6 +21,7 @@ In this article, we are going to send an email with SharePoint Lookup Column dat
 | SalePersonName   | LookUp (SalePerson List) |
  
 ## SharePoinChild List - "SalePerson"
+
 | Columns          | Type                     |
 |------------------|--------------------------|
 | Title            | Text                     |
