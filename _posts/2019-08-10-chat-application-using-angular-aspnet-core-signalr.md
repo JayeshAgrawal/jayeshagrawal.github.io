@@ -3,7 +3,7 @@ title: "Chat Application using Angular, ASP.Net Core, SignalR"
 author: "Jayesh Agrawal"
 date: 2019-08-10 20:55:00 +0530
 categories: [Angular]
-tags: [ChatApplication, AspNetCore, SignalR]
+tags: [ChatApplication, AspNetCore, SignalR, Angular, ApiDevelopment]
 seo:
   date_modified: 2021-02-15 01:55:41 +0530
 ---
@@ -58,7 +58,8 @@ app.UseSignalR(options =>
  }); 
 ```  
 
-- Add a Message Class:
+- Add a Message Class
+
 ```cs
 public class Message  
    {  
@@ -68,7 +69,8 @@ public class Message
        public DateTime date { get; set; }  
    } 
 ``` 
-## Add Angular 8 into the project:
+## Add Angular 8 into the project
+
 We scaffold Angular into our project, for this, we execute "ng new ClientApp --skip-install" on visual studio code terminal and Here, --skip-install option is used to skip installation of the npm packages.
 
 Now we enter "npm install" command to install all angular npm packages in the terminal. And then, update SPA static file service configuration to angular output files folder location. for this, we add below code to "Startup.Configure" method:
