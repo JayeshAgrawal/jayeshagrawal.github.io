@@ -17,27 +17,36 @@ To setup Angular 6.0 in the project: first, we have to install NodeJS in the dev
 ![contactapp](https://1.bp.blogspot.com/-lMlolGQioSM/W0G-WFHRK-I/AAAAAAAAAjY/OZ4x0uJ_2nQj907a5HwWGZIsu0Dt9S_8wCEwYBhgL/s400/0node.png)
 
 Now, let us globally install Angular CLI package by enter "npm install –g angular/cli@6.0.0", as shown in below screenshot
+
 ![contactapp](https://1.bp.blogspot.com/-EbE1pV3HTtk/W0G-YLc-5GI/AAAAAAAAAjU/nHi-vA0GCcE82_R4qE80iMHv2VWdGlbwwCEwYBhgL/s640/1node.png)
 
 ## Scaffold Angular
 To scaffold Angular, enter "ng new Contact-App --skip-install" command in VS code terminal as below.
+
 ![contactapp](https://4.bp.blogspot.com/-l_pbMBrcF6U/W0G-YkbmcMI/AAAAAAAAAjk/B9Je08IpAakzehABzrCxa8N688vFG5wmQCEwYBhgL/s400/2node.png)
 
 Here, --skip-install option is used to skip installation of the npm packages. And Contact-App is our Angular app name.
+
 ![contactapp](https://4.bp.blogspot.com/-xN03EetKCVU/W0G-Y8XzzpI/AAAAAAAAAjU/9rVMOxS9KrwyBa9WXd7CYQEDM98A5gynQCEwYBhgL/s1600/3project.png)
 
 After the project is created, we move all the files & folders from Contact-App to Root folder as below:
+
 ![contactapp](https://1.bp.blogspot.com/-ID9brfd7i_o/W0G-ZOVtLrI/AAAAAAAAAjY/iop2MTxE_E4sa0_N2TZSAl5vqOtRafhKwCEwYBhgL/s640/4project.png)
+
 Then we enter ‘npm install’ command in terminal to install all required packages for Angular.
 
 ## Change Angular Configuration
 Go to "angular.json" file, it is a configuration schema file.
 We changed "wwwroot" folder path in OutputPath.
+
 ![contactapp](https://3.bp.blogspot.com/-hP8ZEdiIR6Q/W0G-ZjkDweI/AAAAAAAAAjc/YoeIW4JZqmA8TcHvOtctihVdNfOMuqFkACEwYBhgL/s400/5path.png)
 
 Then enter ng build command in terminal.
+
 ![contactapp](https://2.bp.blogspot.com/-nbSKlmRPLko/W0G-ZyyGzqI/AAAAAAAAAjY/vhta5RKjuhozuDjas0mFZabCGwmB4iu2wCEwYBhgL/s640/6build.png)
+
 We can see generated files under wwwroot folder.
+
 ![contactapp](https://2.bp.blogspot.com/-fH3KmcSeiCM/W0G-ad2JAqI/AAAAAAAAAjc/Wt--CLndxNUTRaHlVwKDbajnHt_F7xjlACEwYBhgL/s320/7folderpath.png)
 
 ## Configure startup to route to angular application
@@ -59,11 +68,16 @@ app.UseStaticFiles();
 app.UseMvcWithDefaultRoute(); 
 ```
 Now run project by enter "dotnet run" command in terminal and open "localhost:5000" URL in browser.
+
 ![contactapp](https://1.bp.blogspot.com/-4Fuk8RJTryc/W0G-aymNF1I/AAAAAAAAAjk/aB20RcqKwSk6TnlzLL__k9UDmEJFR_EBQCEwYBhgL/s320/9run.png)
+
 ## Setup angular material UI
 Install angular material packages and dependencies.
+
 ![contactapp](https://3.bp.blogspot.com/-lTCEkR4joKk/W0G-WGjJcrI/AAAAAAAAAjk/x5skpX1Po2c4VR6upL7gInvR_gP3ZEnegCEwYBhgL/s640/10material.png)
+
 Please go through this [article](https://material.angular.io/) to get more details about material components. 
+
 ```bat
 ng add @angular/material
 npm install -d @angular/cdk hammerjs
@@ -71,18 +85,22 @@ npm install -d @angular/cdk hammerjs
 To use angular material UI components in our Angular contact application, we have created a separate module named "app.material.module.ts" in app folder.
 In this module, we imported all dependant material components and we have included in our main app module in this module .
 Then, we have imported Angular material theme in the main style.css in src folder
+
 ```ts
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 ```
 Then, we added this link of material icons into index.html in src folder.
+
 ```html
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">  
 ```
 ## Generate contact list & form component
 To generate new component, we used "ng generate component" command as below:
+
 ![contactapp](https://4.bp.blogspot.com/-f6YlMsQbIgk/W0G-WUV26UI/AAAAAAAAAjg/me0C4ncE_lk_36NK7j75Dt6nNN4T-6_mQCEwYBhgL/s640/11component.png)
 
 This we have set up routing for that component in "app.routing.ts".
+
 ```ts
 import {  
     ModuleWithProviders  
@@ -184,6 +202,7 @@ export class ContactService {
 ``` 
 ## Update main app html template
 We have included router outlet place holder to render component based on Angular route.
+
 ```html
 <!--The content below is only a placeholder and can be replaced.-->  
 <mat-toolbar> <span>Contact Application</span> </mat-toolbar>  
@@ -193,6 +212,7 @@ We have included router outlet place holder to render component based on Angular
 In contact form component, we used form group named as 'contactFrm' to bind model with each control and injected dialog data to bind form based on request parameter.
 
 contactform.component.html
+
 ```html 
 <form  (ngSubmit)="onSubmit(contactFrm)"  [formGroup]="contactFrm">  
   <h2>{{data.modalTitle}}</h2>  
@@ -275,6 +295,7 @@ To see contactform.component.ts code please refer this GitHub link and final for
 ## Update contact list component
 In contact list component, we have used material table to bind contact record using ‘MatTableDataSource’ and called contact service to retrieve data from API. Then we used MatDialog to open contact form component.
 contactlist.component.html
+
 ```html 
 <div class="spinner" *ngIf="loadingState; else contactlist">  
 <mat-spinner></mat-spinner>  
@@ -346,6 +367,7 @@ To see contactlist.component.ts code please refer to this GitHub [https://github
 
 ## Build components and run the project
 Our component is ready. Now build Angular project using 'ng build' command and then run the project by entering 'dotnet run' command in terminal.
+
 ![contactapp](https://3.bp.blogspot.com/-KhjhmYPYBjQ/W0G-aQqnK6I/AAAAAAAAAjg/R1wrRVu4l0Q7xfZ45ZARb8UiVM1QmoOKgCEwYBhgL/s400/8run.png)
 
 ![contactapp](https://4.bp.blogspot.com/-ClrLTfKcjUQ/W0G-Xe37f7I/AAAAAAAAAjU/2ZzaFUi09h8Gt6QQ6LSuYwgS1E6gwEYJgCEwYBhgL/s640/1list.png)
