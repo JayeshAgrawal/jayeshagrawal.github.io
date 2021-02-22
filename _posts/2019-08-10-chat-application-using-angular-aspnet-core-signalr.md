@@ -146,7 +146,7 @@ export class ChatService {
 }
 ```
 - Create a Chat App Component(app.component.html):
-```html
+```cs
 <div class="container">  
   <h3 class=" text-center chat_header">Chat Application</h3>  
   <div class="messaging">  
