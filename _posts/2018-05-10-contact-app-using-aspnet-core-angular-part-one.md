@@ -52,31 +52,13 @@ dotnet new webapi
 
 - Here now we are going to create the following API for the contact application:
 
-
-API
-Description
-Request body
-Response body
-GET /api/contact/getAllContact
-Get all contacts
-None
-Array of to-do items
-GET /api/contact/getContact
-Get contact Item
-Contact Item
-Contact Item
-POST /api/contact/addContact
-Add a new contact
-Contact Item
-Contact Item
-PUT /api/contact/updateContact{id}
-Update an existing contact item
-Contact item
-None
-DELETE /api/contact/deleteContact{id}
-Delete an contact item
-None
-None
+| API                                   | Description                       | Request body  | Response body         |
+|---------------------------------------|-----------------------------------|---------------|-----------------------|
+| GET - /api/contact/getAllContact      | Get all contacts                  | None          | Array of to-do items  |
+| GET /api/contact/getContact           | Get contact Item                  | Contact Item  | Contact Item          |
+| POST /api/contact/addContact          | Add a new contact                 | Contact Item  | Contact Item          |
+| PUT /api/contact/updateContact{id}    | Update an existing contact item   | Contact item  | None                  |
+| DELETE /api/contact/deleteContact{id} | Delete an contact item            | None          | None                  |
 
 ## Create contact model
 In this, we are creating a contact class that has getter-setter property as shown in snippet:
@@ -133,6 +115,8 @@ options.UseSqlServer(Configuration.GetConnectionString("ContactDb")));
 ```
 - Then added "Microsoft.EntityFrameworkCore.SqlServer" Package in this project to support SQL server connection.
 
+![contactapp](https://4.bp.blogspot.com/-9XlPrVUVv7Q/W0Gzt6pG1nI/AAAAAAAAAh4/kb-21KWYeE8L3XZNlb89Uab2e5G3TbhkwCEwYBhgL/s640/8package.png)
+
 Here we need to configure connection string in appsettings.json file as shown in the snippet.
 ```json
 "ConnectionStrings": {  
@@ -142,17 +126,20 @@ Here we need to configure connection string in appsettings.json file as shown in
 ## Initiate Database Migration
 To create Initial migration script as per model, we enter "dotnet ef migrations add InitialCreate" command in VS code terminal and we get this issue:
 
+![databasemigration](https://3.bp.blogspot.com/-AYd2g4KuoiE/W0GzqT9bOSI/AAAAAAAAAhk/u9k_v2qg52IIb_aWYlL6B8LB1TIRfkXVwCEwYBhgL/s640/10migration.png)
 
 To solve the issue we have to add this .Net Core CLI tool package in "contact-app.csproj" file and then enter "dotnet restore" in VS code terminal to restore these packages to create initial migration script:
 - Microsoft.EntityFrameworkCore.Tools
 - Microsoft.EntityFrameworkCore.Tools.DotNet
+![datamigration](https://4.bp.blogspot.com/-prsz8zfSpeo/W0GzuLpRHxI/AAAAAAAAAh4/3z5LE0ks89wE599F7GqagXXeXFlxOw8TgCEwYBhgL/s640/9package.png)
 
 Now we enter "dotnet of migrations add InitialCreate" in VS code terminal and we can see that it will create migration folder and script "InitialCreate" in the project as shown in the screenshot:
-
+![datamigration](https://2.bp.blogspot.com/-qd-pM-bZDr0/W0GzqZSdHBI/AAAAAAAAAh0/jbeQX3QHO50X2r5nEoRnuIW_5hPDPOIqwCEwYBhgL/s320/11migration.png)
 
 Now update the database by entering "dotnet ef database update" command in VS code terminal and it will create a database in SQL server:
-
-Please see this article regarding .Net Core Migration.
+![datamigration](https://2.bp.blogspot.com/-l4Gy9N7dvQs/W0GzqrmdPII/AAAAAAAAAhs/CrWGBVdcCWY2md8YDDk78v9CBDoFUKYqgCEwYBhgL/s320/12migration.png
+)
+Please see this [article](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/) regarding .Net Core Migration.
 ## Create contact API controller
 After the database is ready, we have created API controller for CRUD operations as in the below snippet:
 ```cs
@@ -241,35 +228,36 @@ public class ContactController: Controller {
 ```
 ## Build and run contact application project
 To build contact application project we have entered "dotnet build" command VS code terminal:
-
+![datamigration](https://3.bp.blogspot.com/-EE8N1NMUqNE/W0GzqwGLnrI/AAAAAAAAAhs/XZJbQC8oGDQJSmK1Bs6u3AbOTwRWwTN4gCEwYBhgL/s400/13build.png)
 - Setup development variable and URL for project in terminal:
 ```bat
 set ASPNETCORE_ENVIRONMENT=Development
 set ASPNETCORE_URLS=http://localhost:5000
 ```
 Then, to run project we have to enter "dotnet run":
+![datamigration](https://4.bp.blogspot.com/-XsSzYCkJYtA/W0GzrFpCEpI/AAAAAAAAAhs/tWm7DHOFApcqHPqhUvyPNPVzkLnl8t8wwCEwYBhgL/s400/14build.png)
 
+Please see this [article](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x) for more information regarding .Net Core 2x commands.
 
-Please see this article for more information regarding .Net Core 2x commands.
-Test API
-To test API we have installed ChromeRestClient.
-Then we have to open Rest Client, to get contact item by id we set HTTP parameter to get and request URL as shown in the below screenshot:
+## Test API
+- To test API we have installed [ChromeRestClient](https://install.advancedrestclient.com/#/install).
+- Then we have to open Rest Client, to get contact item by id we set HTTP parameter to get and request URL as shown in the below screenshot:
 
+![RestAPI](https://4.bp.blogspot.com/-Usy5JVl9vVE/W0GzrZLXSNI/AAAAAAAAAho/ZaZVRD1W1pIitkPc2DZ4WwrcjWWBNTP8gCEwYBhgL/s640/15Rest.png)
 
 For adding contact item, we have set the body to contact JSON object:
 
-
+![RestAPI](https://3.bp.blogspot.com/-ME10psOPtHg/W0GzrnZm6sI/AAAAAAAAAh4/0EhHsTJYEs4RdSHsyGugLSIEohiFGYarwCEwYBhgL/s400/16Rest.png)
 
 Then, we request add contact URL and set HTTP parameter to post.
 
-
-
+![RestAPI](https://1.bp.blogspot.com/-aUbPcNU6vQg/W0GzsWNW4vI/AAAAAAAAAh8/CLvPNH_SGOUnfVS_mdrQ0_CRvOAokKvhwCEwYBhgL/s320/17Rest.png)
 
 ## Conclusion
 In this article, we learned about how we can develop ASP.Net Core Web API using VS code.
 
 In the next article, we will learn about how we can set up Angular 6 in Web API Project and develop the contact list & contact form component using Angular Material UI. Please see this [link](https://crack-codes.blogspot.com/2018/06/contact-app-using-aspnet-core-angular-part-two.html) for the Part-2 of this article.
 
-Please see entire code in this GitHub link[https://github.com/JayeshAgrawal/contact-app](https://github.com/JayeshAgrawal/contact-app).
+Please see entire code in this GitHub [https://github.com/JayeshAgrawal/contact-app](https://github.com/JayeshAgrawal/contact-app).
 
 Please share your feedback.
