@@ -145,8 +145,7 @@ export class ChatService {
   }  
 }
 ```
-- Create a Chat App Component: 
-app.component.html:
+- Create a Chat App Component(app.component.html):
 ```html
 <div class="container">  
   <h3 class=" text-center chat_header">Chat Application</h3>  
@@ -190,7 +189,9 @@ app.component.html:
   </div>  
 </div>  
 ```
-app.component.ts :
+
+app.component.ts:
+
 ```ts
 import { Component, NgZone } from '@angular/core';  
 import { Message } from '../models/Message';  
