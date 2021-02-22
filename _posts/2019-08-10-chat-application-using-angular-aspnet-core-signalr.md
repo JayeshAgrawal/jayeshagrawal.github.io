@@ -145,8 +145,8 @@ export class ChatService {
   }  
 }
 ```
-- Create a Chat App Component(app.component.html):
-```cs
+## Create a Chat App Component(app.component.html)
+```html
 <div class="container">  
   <h3 class=" text-center chat_header">Chat Application</h3>  
   <div class="messaging">  
@@ -240,6 +240,7 @@ export class AppComponent {
   }  
 }  
 ```
+
 Now our chat application is ready. let's run following command in terminal and test apps: "dotnet run".
 
 ## Summary:
