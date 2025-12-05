@@ -10,10 +10,10 @@
 
 title: The Techie Crunch                         # the main title
 
-tagline: Web technologies | Dot Net | Asp.net MVC Core | Web API | SQL Server | JavaScript | jQuery | Angular | SharePoint Online | Microsoft 365 | Azure | Power Automate  # it will display as the sub-title
+tagline: Leading Full-Stack Solution Development | .NET, Azure, AI Agent Ecosystems | E-Discovery, FinTech, SaaS  # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-  Web technologies | Dot Net | Asp.net MVC Core | Web API | SQL Server | JavaScript | jQuery | Angular | SharePoint Online | Microsoft 365 | Azure | Power Automate
+  Leading Full-Stack Solution Development | .NET, Azure, AI Agent Ecosystems | E-Discovery, FinTech, SaaS
 
 # Replace with your domain, e.g. 'https://username.github.io'
 url: 'https://jayeshagrawal.github.io/' # 'protocol://domain'
