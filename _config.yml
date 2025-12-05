@@ -10,7 +10,11 @@
 
 title: The Techie Crunch                         # the main title
 
-tagline: Leading Full-Stack Solution Development | .NET, Azure, AI Agent Ecosystems | E-Discovery, FinTech, SaaS  # it will display as the sub-title
+tagline: 
+  Leading Full-Stack Solution Development 
+  .NET, Azure, AI Agent Ecosystems
+  E-Discovery, FinTech, SaaS  
+  # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   Leading Full-Stack Solution Development | .NET, Azure, AI Agent Ecosystems | E-Discovery, FinTech, SaaS
