@@ -8,14 +8,28 @@ title: About
 # MIT License
 ---
 ## Jayesh Agrawal
-### Full Stack Developer with 6 years of experience.
-I worked on major projects for the private industry, and also want to contribute in open source projects, with expertise in web development.
+### Leading Full-Stack Solution Development | .NET, Azure, AI Agent Ecosystems | E-Discovery, FinTech, SaaS
+I am a results-driven Technical Lead with over 11 years of experience designing, building, and leading the delivery of enterprise-scale cloud applications, micro services, and intelligent AI Agent ecosystems.
 
-Mostly I am writing article on Microsoft Technology stack and Web Technology as well.
+My expertise bridges deep technical leadership with hands-on development in modern stacks, currently focused on design autonomous AI agent workflows and semantic reasoning systems to solve complex business problems.
 
-I have wide experience developing CMS systems, focusing on scalability, performance, UX, and accessibility. I know many modern technologies, and I am capable of working on a variety of projects that uses different technology stacks.
+Core Technical & Leadership Competencies:
 
-If you are looking for a qualified developer for a project, consulting or specific role, contact me on
+Technical Leadership: Tech Lead for cross-functional teams. Expert in designing clean, scalable architectures, driving technical strategy, and ensuring high-quality delivery in Agile/Scrum environments.
+
+AI Agent & Intelligent Workflows: Specializing in designing and implementing AI Agent frameworks, orchestration (LangGraph), and semantic search pipelines. Passionate about building practical, scalable AI integrations that enhance productivity and decision-making.
+
+Full-Stack Mastery: Deep expertise in the .NET ecosystem (C#, ASP.NET Core), modern front ends (Angular), and cloud-native development on Microsoft Azure. Proficient in Python for AI/ML tooling.
+
+Cloud & Data: Extensive experience with Azure services, micro services, SQL/NoSQL databases, and SharePoint Online integration.
+
+Domain Experience: Proven success delivering high-impact solutions in regulated and complex domains including E-Discovery/Legal Tech, Tax & Financial Services, Hospitality, and Document Management Systems.
+
+Current Focus:
+My current passion lies at the intersection of robust software engineering and applied AI. I am actively exploring and building with AI Agents, workflow automation using Lang Graph, RAG architectures, and semantic knowledge systems to create the next generation of intelligent applications.
+
+Let's Connect:
+I am always interested in connecting with professionals, leaders, and innovators who are building the future with cloud technology, AI Agentic systems, or modern .NET ecosystems.
 
 - [GitHub](https://github.com/JayeshAgrawal)
 - [LinkedIn](https://www.linkedin.com/in/jayeshagrawal001/)
