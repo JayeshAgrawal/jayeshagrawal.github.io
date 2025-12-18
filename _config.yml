@@ -12,7 +12,7 @@ title: The Techie Crunch                         # the main title
 
 tagline: 
   Leading Full-Stack Solution Development 
-  .NET, Azure, AI Agent Ecosystems
+  .NET, Azure, AI Agent Ecosystems,
   E-Discovery, FinTech, SaaS  
   # it will display as the sub-title
 
@@ -20,11 +20,11 @@ description: >-                        # used by seo meta and the atom feed
   Leading Full-Stack Solution Development | .NET, Azure, AI Agent Ecosystems | E-Discovery, FinTech, SaaS
 
 # Replace with your domain, e.g. 'https://username.github.io'
-url: 'https://jayeshagrawal.github.io/' # 'protocol://domain'
+url: 'https://jayeshagrawal.github.io' # 'protocol://domain'
 
 author: Jayesh Agrawal                  # change to your full name
 
-avatar: https://1.bp.blogspot.com/-1fpkhuenCcA/YBBMNk5mFUI/AAAAAAAABWc/f8nsjRe80VIHRrlVATayeHttLOjZ09zhACLcBGAsYHQ/s64/man_512x512.png   # support internet resources
+avatar: /assets/img/avatar.jpeg   # support internet resources
 
 github:
   username: JayeshAgrawal             # change to your github username
