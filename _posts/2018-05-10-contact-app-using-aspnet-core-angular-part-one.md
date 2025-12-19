@@ -1,8 +1,8 @@
 ---
-title: "Contact Application Using ASP.NET Core Web API, Angular 6.0, And Visual Studio Code - Part One"
+title: "Contact Application Using ASP.NET Core Angular 6.0 - Part One"
 author: "Jayesh Agrawal"
 date: 2018-05-10 20:55:00 +0530
-categories: [AspNetCore]
+categories: [DotNet]
 tags: [ContactApplication, Angular, ApiDevelopment]
 seo:
   date_modified: 2021-02-20 01:55:41 +0530
