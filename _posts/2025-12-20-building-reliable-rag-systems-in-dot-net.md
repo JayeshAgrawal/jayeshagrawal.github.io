@@ -2,12 +2,13 @@
 title: "Building Reliable RAG Systems in .NET"
 author: "Jayesh Agrawal"
 date: 2025-12-20 20:55:00 +0530
-categories: [aiagent, dotnet]
-tags: [microsoftagentframework, ragsystems]
+categories: [aiagent]
+tags: [microsoftagentframework, ragsystems, dotnet]
 seo:
   date_modified: 2021-02-08 01:55:41 +0530
 ---
-# Building Reliable RAG Systems in .NET: From Naive Retrieval to Engineer-Grade Pipelines
+---
+From Naive Retrieval to Engineer-Grade Pipelines
 ---
 
 ## Introduction: (How to Build It Right)

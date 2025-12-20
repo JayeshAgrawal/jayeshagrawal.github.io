@@ -2,8 +2,8 @@
 title: "Chat Application using Angular, ASP.Net Core, SignalR"
 author: "Jayesh Agrawal"
 date: 2019-08-10 20:55:00 +0530
-categories: [dotnet, angular, nodejs]
-tags: [chatapp, aspnetcore, singalr, angular, api]
+categories: [angular]
+tags: [chatapp, aspnetcore, singalr, angular, nodejs, dotnet]
 seo:
   date_modified: 2021-02-15 01:55:41 +0530
 ---
