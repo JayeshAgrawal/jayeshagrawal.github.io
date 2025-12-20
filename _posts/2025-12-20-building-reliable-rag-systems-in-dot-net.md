@@ -16,7 +16,9 @@ We've probably seen the hype: "RAG is the solution to hallucinations. Just add o
 
 Then we built it. And it failed.
 
-Our retrieval surface was too broad—returning irrelevant chunks. Or too narrow—missing critical context. Our embeddings couldn't distinguish between "refund policy for digital goods" and "refund policy for services." The LLM rambled despite having perfect documentation. Our costs exploded because we embedded every document, every query, every variation.
+Our retrieval surface was too broad—returning irrelevant chunks. Or too narrow—missing critical context. Our embeddings couldn't distinguish between "refund policy for digital goods" and "refund policy for services".
+
+The LLM rambled despite having perfect documentation. Our costs exploded because we embedded every document, every query, every variation.
 
 They ask: "How do I add documents to my LLM?" instead of: "How do I build a retrieval pipeline that:
 - Serves queries in 50–200 ms?
