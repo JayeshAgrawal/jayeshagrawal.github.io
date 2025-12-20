@@ -2,8 +2,8 @@
 title: "Contact Application Using ASP.NET Core, Angular - Part Two"
 author: "Jayesh Agrawal"
 date: 2018-06-01 12:55:00 +0530
-categories: [Angular]
-tags: [ContactApplication, AspNetCore, ApiDevelopment]
+categories: [dotnet, angular, nodejs]
+tags: [contactapp, aspnetcore, api]
 seo:
   date_modified: 2021-02-20 01:55:41 +0530
 ---

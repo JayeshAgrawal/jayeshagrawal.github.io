@@ -2,8 +2,8 @@
 title: "Pass data to ASP.NET Web Service (ASMX) from Cross-Origin"
 author: "Jayesh Agrawal"
 date: 2017-07-08 10:20:00 +0530
-categories: [DotNet]
-tags: [ASMX, JQuery]
+categories: [dotnet]
+tags: [asmx, jquery]
 seo:
   date_modified: 2021-01-10 01:55:41 +0530
 ---
@@ -55,7 +55,7 @@ $.ajax({
     console.log(request);  
   }  
 });  
-'''
+```
 
 We will receive this error message: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:11111' is therefore not allowed access.
 

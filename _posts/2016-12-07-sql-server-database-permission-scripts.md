@@ -2,8 +2,8 @@
 title: "SQL Server Database Permission Scripts"
 author: "Jayesh Agrawal"
 date: 2016-12-07 14:35:00 +0530
-categories: [Database]
-tags: [SQLServer]
+categories: [database]
+tags: [sqlserver]
 seo:
   date_modified: 2021-01-10 01:55:41 +0530
 ---

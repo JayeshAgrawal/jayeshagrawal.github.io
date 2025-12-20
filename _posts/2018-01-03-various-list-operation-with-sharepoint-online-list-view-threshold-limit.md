@@ -2,8 +2,8 @@
 title: "Various List Operations With SharePoint Online List View Threshold Limit"
 author: "Jayesh Agrawal"
 date: 2018-01-03 20:55:00 +0530
-categories: [Microsoft365]
-tags: [SharePointOnline, ThreasholdLimit]
+categories: [microsoft365]
+tags: [sharepointonline, threadsholdlimit]
 seo:
   date_modified: 2021-02-05 01:55:41 +0530
 ---

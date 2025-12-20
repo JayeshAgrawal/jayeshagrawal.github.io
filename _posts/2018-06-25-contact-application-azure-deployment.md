@@ -2,8 +2,8 @@
 title: "Contact Application - Azure Deployment"
 author: "Jayesh Agrawal"
 date: 2018-06-25 20:55:00 +0530
-categories: [Azure]
-tags: [ContactApplication, AspNetCore, Angular, ApiDevelopment]
+categories: [dotnet, angular, nodejs]
+tags: [contactapp, aspnetcore, azure, api]
 seo:
   date_modified: 2021-02-20 01:55:41 +0530
 ---

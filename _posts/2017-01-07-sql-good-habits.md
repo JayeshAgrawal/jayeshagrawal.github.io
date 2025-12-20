@@ -2,8 +2,8 @@
 title: "MySQL - Good Habits"
 author: "Jayesh Agrawal"
 date: 2017-01-07 20:55:00 +0530
-categories: [Database]
-tags: [MySQL, StoredProcedure, GoodHabits]
+categories: [database]
+tags: [mysql, storedprocedure, goodhabits]
 seo:
   date_modified: 2021-02-08 01:55:41 +0530
 ---

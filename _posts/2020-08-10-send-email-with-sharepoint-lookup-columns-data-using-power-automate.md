@@ -2,8 +2,8 @@
 title: "Send Email With SharePoint Lookup Columns Data Using Power Automates"
 author: "Jayesh Agrawal"
 date: 2020-08-10 09:55:00 +0530
-categories: [Microsoft365]
-tags: [MicrosoftFlow, PowerAutomate]
+categories: [microsoft365]
+tags: [microsoftflow, powerautomate]
 seo:
   date_modified: 2021-02-19 01:55:41 +0530
 ---

@@ -2,8 +2,8 @@
 title: "Send an Email Reminder Notification Based on an Expiration Date using Power Automate"
 author: "Jayesh Agrawal"
 date: 2020-02-08 14:55:00 +0530
-categories: [Microsoft365]
-tags: [MicrosoftFlow, PowerAutomate]
+categories: [microsoft365]
+tags: [microsoftflow, powerautomate]
 seo:
   date_modified: 2021-02-18 01:55:41 +0530
 ---

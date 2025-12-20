@@ -2,8 +2,8 @@
 title: "Create SSRS Drill Down Report"
 author: "Jayesh Agrawal"
 date: 2017-08-25 10:20:00 +0530
-categories: [Database]
-tags: [SQLServer, SSRS]
+categories: [database]
+tags: [sqlserver, ssrs]
 seo:
   date_modified: 2021-01-10 01:55:41 +0530
 ---

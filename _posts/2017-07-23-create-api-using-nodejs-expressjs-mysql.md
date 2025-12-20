@@ -2,8 +2,8 @@
 title: "MySQL Data Access API Development Using Express.JS, Node.JS"
 author: "Jayesh Agrawal"
 date: 2017-07-23 20:55:00 +0530
-categories: [NodeJS]
-tags: [ExpressJs, ApiDevelopment,MySQL]
+categories: [nodejs]
+tags: [expressjs, api, mysql]
 seo:
   date_modified: 2021-02-07 01:55:41 +0530
 ---
