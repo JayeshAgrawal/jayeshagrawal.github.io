@@ -1,11 +1,11 @@
 ---
 title: "Building Reliable RAG Systems in .NET"
 author: "Jayesh Agrawal"
-date: 2025-12-20 20:55:00 +0530
+date: 2025-12-21 10:55:00 +0530
 categories: [aiagent]
 tags: [aiagent, semantickernel, ragsystems, dotnet]
 seo:
-  date_modified: 2021-02-08 01:55:41 +0530
+  date_modified: 2025-12-21 10:55:00 +0530
 ---
 ---
 
@@ -30,7 +30,7 @@ They ask: "How do I add documents to my LLM?" instead of: "How do I build a retr
 - Catches hallucinations before they reach users?
 - Runs entirely on-premise if needed?"
 
-**Lets find answers those questions.**
+**Lets find answer to those questions.**
 
 RAG is treated as infrastructure: with measurable SLAs, domain-specific chunking strategies, evaluation frameworks, and code we can run today. Five architecture patterns help we pick the right one upfront—not after months of painful refactoring. The code is extensible: it runs with local models (zero cost, complete privacy) or remote LLMs (maximum accuracy, managed infrastructure) via configuration, not rewrites. A complete, evaluated end-to-end example ties it together.
 
@@ -43,7 +43,7 @@ By the end, we will have:
 
 ---
 
-## What we covers
+## What I covers
 - **5 architecture patterns**: From simple FAQ-style RAG to iterative agent verification
 - **Domain-specific chunking**: Technical docs, legal clauses, code, FAQs, structured/time-series
 - **Local vs remote models**: Build once, run with:
@@ -155,37 +155,6 @@ Simple, low latency, fully local.
 **Cons:**  
 No hybrid search, struggles with very keyword-heavy domains.
 
-**Semantic Kernel + Local SLM Example**
-
-```csharp
-public class LocalRagPattern
-{
-    private readonly Kernel _kernel;
-    private readonly ITextEmbeddingGenerationService _embedding;
-
-    public LocalRagPattern()
-    {
-        var builder = Kernel.CreateBuilder();
-
-        builder.AddOllamaTextEmbedding(
-            modelId: "nomic-embed-text",
-            endpoint: new Uri("http://localhost:11434"));
-
-        _kernel = builder.Build();
-        _embedding = _kernel.GetRequiredService<ITextEmbeddingGenerationService>();
-    }
-
-    public async Task<List<RetrievalResult>> RetrieveSimple(
-        string query,
-        VectorStore vectorStore)
-    {
-        var queryEmbedding = await _embedding.GenerateEmbeddingAsync(query);
-        var results = vectorStore.Search(queryEmbedding, k: 5);
-        return results;
-    }
-}
-```
-
 ---
 
 ### Pattern 2: Hybrid Retrieval Pipeline
@@ -206,47 +175,6 @@ More moving parts (BM25 + vector store + fusion).
 
 Implement via Reciprocal Rank Fusion (RRF):
 
-```csharp
-public class HybridRetriever
-{
-    private readonly IVectorStore _vectorStore;
-    private readonly IBm25Index _bm25;
-    private readonly IEmbeddingService _embedding;
-
-    public async Task<List<RetrievalResult>> RetrieveHybrid(
-        string query, 
-        int k = 10)
-    {
-        var queryEmbedding = await _embedding.EmbedTextAsync(query);
-        var denseResults = await _vectorStore.SearchAsync(queryEmbedding, k);
-        var bm25Results = _bm25.Search(query, k);
-
-        // RRF: Normalize and fuse scores
-        var fused = new Dictionary<string, double>();
-
-        foreach (var (idx, result) in denseResults.Select((r, i) => (i, r)))
-        {
-            if (!fused.ContainsKey(result.ChunkId))
-                fused[result.ChunkId] = 0;
-            fused[result.ChunkId] += 1.0 / (60 + idx + 1);
-        }
-
-        foreach (var (idx, result) in bm25Results.Select((r, i) => (i, r)))
-        {
-            if (!fused.ContainsKey(result.ChunkId))
-                fused[result.ChunkId] = 0;
-            fused[result.ChunkId] += 1.0 / (60 + idx + 1);
-        }
-
-        return fused
-            .OrderByDescending(x => x.Value)
-            .Take(k)
-            .Select(x => new RetrievalResult { ChunkId = x.Key, Score = x.Value })
-            .ToList();
-    }
-}
-```
-
 ---
 
 ### Pattern 3: Multi-Index Strategy with Agent Routing
@@ -258,78 +186,12 @@ Query → Agent (Semantic Kernel) → Classifier Plugin → Target Index → Ret
 **When to use:**
 - Heterogeneous corpora (API docs, FAQs, legal, community posts)
 - Need index-specific chunking and tuning
-- >500k docs across types
+- `>500k docs across types`
 
 **Pros:**  
 Each index is optimized independently; improved precision.  
 **Cons:**  
 Requires an agent classifier and multiple indexes.
-
-**Semantic Kernel - Agent Routing Example**
-
-```csharp
-public class MultiIndexAgentPattern
-{
-    private readonly Kernel _kernel;
-
-    public MultiIndexAgentPattern()
-    {
-        var builder = Kernel.CreateBuilder();
-
-        builder.AddOllamaTextEmbedding("nomic-embed-text",
-            new Uri("http://localhost:11434"));
-        builder.AddOllamaChatCompletion("mistral",
-            new Uri("http://localhost:11434"));
-
-        _kernel = builder.Build();
-
-        _kernel.ImportPluginFromType<DocumentationRetriever>("docs");
-        _kernel.ImportPluginFromType<LegalDocRetriever>("legal");
-        _kernel.ImportPluginFromType<FaqRetriever>("faq");
-    }
-
-    public async Task<string> RetrieveWithAgentRouting(string query)
-    {
-        var functionPrompt = @"
-Given the user query, determine which document type to search:
-- ""API"": For authentication, endpoints, integration questions
-- ""LEGAL"": For terms, compliance, policy questions
-- ""FAQ"": For common questions, troubleshooting
-- ""DOCS"": For general product documentation
-
-Query: {{$query}}
-
-Return ONLY the category name (API/LEGAL/FAQ/DOCS).";
-
-        var result = await _kernel.InvokePromptAsync(
-            functionPrompt,
-            new KernelArguments { ["query"] = query });
-
-        var category = result.ToString().Trim();
-
-        return category switch
-        {
-            "API" => await _kernel.InvokeAsync<string>("docs", "RetrieveAPI",
-                new KernelArguments { ["query"] = query }),
-            "LEGAL" => await _kernel.InvokeAsync<string>("legal", "RetrieveLegal",
-                new KernelArguments { ["query"] = query }),
-            "FAQ" => await _kernel.InvokeAsync<string>("faq", "RetrieveFAQ",
-                new KernelArguments { ["query"] = query }),
-            _ => await _kernel.InvokeAsync<string>("docs", "RetrieveDocs",
-                new KernelArguments { ["query"] = query })
-        };
-    }
-}
-
-public class DocumentationRetriever
-{
-    [KernelFunction("RetrieveAPI")]
-    public string RetrieveAPI(string query)
-    {
-        return "Retrieved API docs...";
-    }
-}
-```
 
 ---
 
@@ -349,65 +211,6 @@ Big savings on tokens and retrieval without hurting accuracy.
 **Cons:**  
 Complexity classifier must not be too expensive.
 
-**Semantic Kernel + Local SLM Classifier**
-
-```csharp
-public class AdaptiveRetrievalPattern
-{
-    private readonly Kernel _kernel;
-
-    public AdaptiveRetrievalPattern()
-    {
-        var builder = Kernel.CreateBuilder();
-        builder.AddOllamaTextEmbedding("nomic-embed-text",
-            new Uri("http://localhost:11434"));
-        builder.AddOllamaChatCompletion("mistral",
-            new Uri("http://localhost:11434"));
-
-        _kernel = builder.Build();
-    }
-
-    public async Task<List<Chunk>> RetrieveAdaptive(string query, VectorStore vectorStore)
-    {
-        var prompt = @"
-Analyze query complexity (1-5):
-1 = Single word lookup
-3 = Simple question
-5 = Complex comparison with conditions
-
-Query: {{$query}}
-
-Return ONLY the number.";
-
-        var result = await _kernel.InvokePromptAsync(
-            prompt,
-            new KernelArguments { ["query"] = query });
-
-        int complexity = int.Parse(result.ToString().Trim());
-
-        int k = complexity switch
-        {
-            1 => 2,
-            2 => 3,
-            3 => 5,
-            4 => 8,
-            5 => 12,
-            _ => 5
-        };
-
-        var embedding = await _kernel
-            .GetRequiredService<ITextEmbeddingGenerationService>()
-            .GenerateEmbeddingAsync(query);
-
-        var results = vectorStore.Search(embedding, k);
-
-        Console.WriteLine($"Query complexity: {complexity}/5, Retrieved k={k} chunks");
-
-        return results;
-    }
-}
-```
-
 ---
 
 ### Pattern 5: Iterative Refinement RAG with Verification
@@ -420,85 +223,6 @@ Query → Retrieve → Draft Answer → Confidence Score → (Optional) Refined 
 - High-stakes use (medical, legal, compliance)
 - Need explicit verification passes
 - Accept higher latency
-
-**Semantic Kernel Implementation**
-
-```csharp
-public class IterativeRefinementPattern
-{
-    private readonly Kernel _kernel;
-
-    public IterativeRefinementPattern()
-    {
-        var builder = Kernel.CreateBuilder();
-        builder.AddOllamaTextEmbedding("nomic-embed-text",
-            new Uri("http://localhost:11434"));
-        builder.AddOllamaChatCompletion("mistral",
-            new Uri("http://localhost:11434"));
-
-        _kernel = builder.Build();
-    }
-
-    public async Task<(string answer, decimal confidence, int iterations)>
-        RetrieveWithIterativeRefinement(string query, VectorStore vectorStore)
-    {
-        int iterations = 0;
-        decimal confidence = 0;
-        string answer = "";
-        var refinedQuery = query;
-
-        while (iterations < 3 && confidence < 0.75m)
-        {
-            iterations++;
-
-            var embedding = await _kernel
-                .GetRequiredService<ITextEmbeddingGenerationService>()
-                .GenerateEmbeddingAsync(refinedQuery);
-
-            var chunks = vectorStore.Search(embedding, k: 5);
-            var context = string.Join("\n", chunks.Select(c => c.Text));
-
-            var generatePrompt = $@"
-                    Based on this context, answer the question.
-                    Context: {context}
-                    Question: {refinedQuery}
-
-                    Provide a concise answer.";
-
-            answer = await _kernel.InvokePromptAsync(generatePrompt);
-
-            var scorePrompt = $@"
-                    Rate Our confidence in this answer (0.0-1.0):
-                    Answer: {answer}
-                    Context quality: {(chunks.Count >= 3 ? "Good" : "Limited")}
-
-                    Return ONLY a decimal (e.g., 0.85).";
-
-            var scoreResult = await _kernel.InvokePromptAsync(scorePrompt);
-            confidence = decimal.Parse(scoreResult.ToString().Trim());
-
-            Console.WriteLine($"Iteration {iterations}: Confidence = {confidence:P}");
-
-            if (confidence < 0.75m && iterations < 3)
-            {
-                var refinePrompt = $@"
-                    The answer has low confidence. What aspect should we search for more deeply?
-                    Original query: {query}
-                    Answer: {answer}
-                    Context: {context}
-
-                    Suggest a refined search query to verify or improve this answer.
-                    Return ONLY the new query.";
-
-                refinedQuery = await _kernel.InvokePromptAsync(refinePrompt);
-                Console.WriteLine($"Refined query: {refinedQuery}");
-            }
-        }
-
-        return (answer, confidence, iterations);
-    }
-}
-```
 
 ---
 
@@ -518,70 +242,6 @@ Documentation has structure: headers, code blocks, explanations.
 - Keep code blocks + explanations together
 - Include breadcrumb metadata
 
-**C# Pattern:**
-
-```csharp
-public class DocumentationChunker
-{
-    public List<Chunk> ChunkMarkdownDocument(string markdown)
-    {
-        var lines = markdown.Split('\n');
-        var chunks = new List<Chunk>();
-        var currentChunk = new StringBuilder();
-        var breadcrumb = new Stack<string>();
-
-        foreach (var line in lines)
-        {
-            if (line.StartsWith("# "))
-                breadcrumb.Clear();
-            else if (line.StartsWith("## "))
-                breadcrumb.Push(line.Substring(2));
-            else if (line.StartsWith("### "))
-                breadcrumb.Push(line.Substring(3));
-
-            currentChunk.AppendLine(line);
-
-            if ((line.StartsWith("## ") || line.StartsWith("# ")) && currentChunk.Length > 0)
-            {
-                chunks.Add(new Chunk
-                {
-                    Text = currentChunk.ToString(),
-                    Metadata = new Dictionary<string, string>
-                    {
-                        { "breadcrumb", string.Join(" > ", breadcrumb.Reverse()) },
-                        { "doc_type", "technical_docs" },
-                        { "source_file", "api_reference.md" }
-                    },
-                    TokenCount = CountTokens(currentChunk.ToString())
-                });
-                currentChunk.Clear();
-            }
-        }
-
-        if (currentChunk.Length > 0)
-        {
-            chunks.Add(new Chunk
-            {
-                Text = currentChunk.ToString(),
-                Metadata = new Dictionary<string, string>
-                {
-                    { "breadcrumb", string.Join(" > ", breadcrumb.Reverse()) }
-                }
-            });
-        }
-
-        return chunks;
-    }
-
-    private int CountTokens(string text) => text.Length / 4;
-}
-```
-
-**Expected behavior:**
-- Input: API reference with 50 endpoints
-- Output: ~50 chunks, one per endpoint + description
-- Retrieval: "How do I authenticate?" finds the auth section, complete with examples
-
 ---
 
 ### Chunking for Legal / Compliance Documents
@@ -596,46 +256,6 @@ Legal documents have clause numbers, cross-references, and defined terms that ma
 - Keep defined terms together
 - Track version/date
 
-**C# Pattern:**
-
-```csharp
-public class LegalDocumentChunker
-{
-    public List<Chunk> ChunkLegalDocument(string docText)
-    {
-        var clauses = ParseClauses(docText);
-        var chunks = new List<Chunk>();
-        var references = ExtractReferences(docText);
-
-        foreach (var clause in clauses)
-        {
-            var clauseNumber = clause.Number;
-            var text = clause.Text;
-
-            var relatedReferences = references
-                .Where(r => r.MentionedIn.Contains(clauseNumber))
-                .Select(r => r.TargetClause)
-                .ToList();
-
-            chunks.Add(new Chunk
-            {
-                Text = text,
-                Metadata = new Dictionary<string, string>
-                {
-                    { "clause_number", clauseNumber },
-                    { "cross_references", string.Join(", ", relatedReferences) },
-                    { "doc_type", "legal" },
-                    { "version", "2.1" },
-                    { "defined_terms", ExtractDefinedTerms(text) }
-                }
-            });
-        }
-
-        return chunks;
-    }
-}
-```
-
 ---
 
 ### Chunking for Code + Docstrings
@@ -648,51 +268,6 @@ Code needs context: function signature, docstring, usage example.
 - Parse at language-aware boundaries (functions, classes, methods)
 - Keep docstring + implementation + example together
 - Include language/framework metadata
-
-**Example:**
-
-```csharp
-public class CodeDocumentationChunker
-{
-    public List<Chunk> ChunkCSharpCode(string codeText)
-    {
-        var methods = ParseMethods(codeText);
-        var chunks = new List<Chunk>();
-
-        foreach (var method in methods)
-        {
-            var chunk = new StringBuilder();
-
-            if (!string.IsNullOrEmpty(method.Docstring))
-                chunk.AppendLine(method.Docstring);
-
-            chunk.AppendLine(method.Signature);
-
-            var implementation = method.Body
-                .Split('\n')
-                .Take(50)
-                .ToList();
-            chunk.AppendLine(string.Join("\n", implementation));
-
-            chunks.Add(new Chunk
-            {
-                Text = chunk.ToString(),
-                Metadata = new Dictionary<string, string>
-                {
-                    { "type", "method" },
-                    { "name", method.Name },
-                    { "class", method.ParentClass },
-                    { "returns", method.ReturnType },
-                    { "language", "csharp" },
-                    { "file", method.FileName }
-                }
-            });
-        }
-
-        return chunks;
-    }
-}
-```
 
 ---
 
@@ -707,54 +282,16 @@ FAQs should never split Q from A.
 - Add question as metadata (for keyword search)
 - Include context tags (e.g., "topic: authentication")
 
-**Example:**
-
-```csharp
-public class FaqChunker
-{
-    public List<Chunk> ChunkFaq(string faqText)
-    {
-        var qaRegex = new Regex(@"Q:\s*(.+?)\s*A:\s*(.+?)(?=Q:|$)", 
-            RegexOptions.Singleline);
-        
-        var matches = qaRegex.Matches(faqText);
-        var chunks = new List<Chunk>();
-
-        foreach (Match match in matches)
-        {
-            var question = match.Groups[1].Value.Trim();
-            var answer = match.Groups[2].Value.Trim();
-
-            chunks.Add(new Chunk
-            {
-                Text = $"Q: {question}\n\nA: {answer}",
-                Metadata = new Dictionary<string, string>
-                {
-                    { "question", question },
-                    { "doc_type", "faq" },
-                    { "topic", InferTopic(question) },
-                    { "difficulty", "beginner" }
-                }
-            });
-        }
-
-        return chunks;
-    }
-
-    private string InferTopic(string question)
-    {
-        if (question.Contains("refund") || question.Contains("payment"))
-            return "billing";
-        if (question.Contains("authenticate") || question.Contains("login"))
-            return "authentication";
-        return "general";
-    }
-}
-```
-
 ---
 
 ## 4. Local SLM Embedding Options for .NET
+
+**Packages:**
+```bash
+Microsoft.SemanticKernel
+Microsoft.SemanticKernel.Connectors.Ollama
+Microsoft.SemanticKernel.Connectors.Onnx
+```
 
 Instead of relying on expensive API-based embeddings, use local Small Language Models (SLMs) running in .NET.
 
@@ -772,26 +309,26 @@ ollama pull nomic-embed-text
 public class OllamaEmbeddingService : IEmbeddingService
 {
     private readonly Kernel _kernel;
-    private readonly ITextEmbeddingGenerationService _service;
+    private readonly IEmbeddingGenerator<string, Embedding<float>> _service;
 
     public OllamaEmbeddingService(Uri ollamaEndpoint)
     {
         var builder = Kernel.CreateBuilder();
-        builder.AddOllamaTextEmbedding("nomic-embed-text", ollamaEndpoint);
+        builder.AddOllamaEmbeddingGenerator("nomic-embed-text", ollamaEndpoint);
 
         _kernel = builder.Build();
-        _service = _kernel.GetRequiredService<ITextEmbeddingGenerationService>();
+        _service = _kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
     }
 
-    public async Task<float[]> EmbedTextAsync(string text)
+    public async Task<Embedding<float>> EmbedTextAsync(string text)
     {
-        var embedding = await _service.GenerateEmbeddingAsync(text);
-        return embedding.ToArray();
+        var embedding = await _service.GenerateAsync(text);
+        return embedding;
     }
 
-    public async Task<List<float[]>> EmbedBatchAsync(List<string> texts)
+    public async Task<List<Embedding<float>>> EmbedBatchAsync(List<string> texts)
     {
-        var list = new List<float[]>();
+        var list = new List<Embedding<float>>();
         foreach (var text in texts)
             list.Add(await EmbedTextAsync(text));
         return list;
@@ -807,67 +344,7 @@ public class OllamaEmbeddingService : IEmbeddingService
 
 ---
 
-### Option 2: ONNX Runtime (Production)
-
-For production deployments, use ONNX Runtime to run embeddings directly in Our .NET application without external services.
-
-```csharp
-public class OnnxEmbeddingService : IEmbeddingService
-{
-    private readonly InferenceSession _session;
-
-    public OnnxEmbeddingService(string onnxModelPath)
-    {
-        _session = new InferenceSession(onnxModelPath);
-    }
-
-    public float[] EmbedText(string text)
-    {
-        var tokens = Tokenize(text);
-
-        var input = new List<NamedOnnxValue>
-        {
-            NamedOnnxValue.CreateFromTensor("input_ids",
-                new DenseTensor<long>(tokens, new[] { 1, tokens.Length }))
-        };
-
-        using (var results = _session.Run(input))
-        {
-            return results.FirstOrDefault()?
-                .AsEnumerable<float>()
-                .ToArray() ?? new float[0];
-        }
-    }
-
-    public async Task<float[]> EmbedTextAsync(string text)
-    {
-        return await Task.FromResult(EmbedText(text));
-    }
-
-    public async Task<List<float[]>> EmbedBatchAsync(List<string> texts)
-    {
-        var list = new List<float[]>();
-        foreach (var text in texts)
-            list.Add(EmbedText(text));
-        return await Task.FromResult(list);
-    }
-
-    private long[] Tokenize(string text)
-    {
-        return new long[] { /* token ids */ };
-    }
-
-    public string GetBackendName() => "ONNX Runtime (Local, In-Process)";
-}
-```
-
-**Performance:** ~20–50ms per embedding (very fast, in-process).
-
-**Cost:** 0 USD, completely offline.
-
----
-
-### Option 3: Azure OpenAI (When Local SLMs Aren't Enough)
+### Option 2: Azure OpenAI (When Local SLMs Aren't Enough)
 
 For maximum accuracy, use Azure OpenAI while maintaining control:
 
@@ -875,26 +352,26 @@ For maximum accuracy, use Azure OpenAI while maintaining control:
 public class AzureOpenAIEmbeddingService : IEmbeddingService
 {
     private readonly Kernel _kernel;
-    private readonly ITextEmbeddingGenerationService _service;
+    private readonly IEmbeddingGenerator<string, Embedding<float>> _service;
 
-    public AzureOpenAIEmbeddingService(string deploymentName, Uri endpoint, string apiKey)
+    public AzureOpenAIEmbeddingService(string deploymentName, string endpoint, string apiKey)
     {
         var builder = Kernel.CreateBuilder();
-        builder.AddAzureOpenAITextEmbedding(deploymentName, endpoint, apiKey);
+        builder.AddAzureOpenAIEmbeddingGenerator(deploymentName, endpoint, apiKey);
 
         _kernel = builder.Build();
-        _service = _kernel.GetRequiredService<ITextEmbeddingGenerationService>();
+        _service = _kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
     }
 
-    public async Task<float[]> EmbedTextAsync(string text)
+    public async Task<Embedding<float>> EmbedTextAsync(string text)
     {
-        var embedding = await _service.GenerateEmbeddingAsync(text);
-        return embedding.ToArray();
+        var embedding = await _service.GenerateAsync(text);
+        return embedding;
     }
 
-    public async Task<List<float[]>> EmbedBatchAsync(List<string> texts)
+    public async Task<List<Embedding<float>>> EmbedBatchAsync(List<string> texts)
     {
-        var list = new List<float[]>();
+        var list = new List<Embedding<float>>();
         foreach (var text in texts)
             list.Add(await EmbedTextAsync(text));
         return list;
@@ -906,7 +383,7 @@ public class AzureOpenAIEmbeddingService : IEmbeddingService
 
 ---
 
-### Option 4: Hybrid Fallback (Local Primary, Remote Fallback)
+### Option 3: Hybrid Fallback (Local Primary, Remote Fallback)
 
 ```csharp
 public class HybridEmbeddingService : IEmbeddingService
@@ -955,42 +432,7 @@ public class HybridEmbeddingService : IEmbeddingService
 
 ---
 
-## 5. Embedding Model Selection: Decision Framework
-
-### Decision Tree: From Constraints to Model
-
-**Step 1: Can we run local SLMs?**
-- Yes (on-premise, privacy critical) → Use Ollama or ONNX locally
-- No (strict latency <5ms) → Use API-based embeddings
-- Maybe → Use hybrid approach
-
-**Step 2: If local - which SLM?**
-- Speed critical → ONNX Runtime (20–50ms)
-- Development / flexibility → Ollama (100ms, easy model switching)
-- Privacy + performance → ONNX in production
-
-**Step 3: If API - which service?**
-- Cost-sensitive → OpenAI small ($0.02/1M)
-- On-premise requirement → Local only, no API
-- Best accuracy → OpenAI large ($0.13/1M)
-
-### Local SLM Embedding Models
-
-| Model | MTEB Rank | Dims | Speed | Memory | Best For |
-|-------|-----------|------|-------|--------|----------|
-| nomic-embed-text | Top 1 | 768 | ~100ms | 200MB | Ollama, General |
-| bge-small-en | Top 5 | 384 | ~50ms | 100MB | ONNX, Speed |
-| e5-small | Top 10 | 384 | ~60ms | 120MB | ONNX, Fast retrieval |
-| all-MiniLM-L6-v2 | Top 20 | 384 | ~40ms | 80MB | ONNX, Lightweight |
-
-**Recommendation:**
-- **Development:** Ollama + nomic-embed-text
-- **Production:** ONNX + bge-small-en
-- **Maximum performance:** ONNX + nomic-embed-text
-
----
-
-## 6. Building an Evaluation Framework in .NET
+## 5. Building an Evaluation Framework in .NET
 
 Here's the hard truth: if we're not measuring retrieval quality, we don't know if it is working.
 
@@ -1092,10 +534,10 @@ var v2 = evaluator.EvaluateSystem(testSet);
 
 ---
 
-## 7. Complete Extensible End-to-End Example  
+## 6. Complete Extensible End-to-End Example  
 ### Local SLM, Remote LLM, and Hybrid – One Codebase
 
-### 7.1 Extensible Embedding Service Interface
+### 6.1 Extensible Embedding Service Interface
 
 ```csharp
 public interface IEmbeddingService
@@ -1105,232 +547,9 @@ public interface IEmbeddingService
     string GetBackendName();
 }
 ```
-
-**Local (Ollama):**
-
-```csharp
-public class OllamaEmbeddingService : IEmbeddingService
-{
-    private readonly Kernel _kernel;
-    private readonly ITextEmbeddingGenerationService _service;
-
-    public OllamaEmbeddingService(Uri ollamaEndpoint)
-    {
-        var builder = Kernel.CreateBuilder();
-        builder.AddOllamaTextEmbedding("nomic-embed-text", ollamaEndpoint);
-
-        _kernel = builder.Build();
-        _service = _kernel.GetRequiredService<ITextEmbeddingGenerationService>();
-    }
-
-    public async Task<float[]> EmbedTextAsync(string text)
-    {
-        var embedding = await _service.GenerateEmbeddingAsync(text);
-        return embedding.ToArray();
-    }
-
-    public async Task<List<float[]>> EmbedBatchAsync(List<string> texts)
-    {
-        var list = new List<float[]>();
-        foreach (var text in texts)
-            list.Add(await EmbedTextAsync(text));
-        return list;
-    }
-
-    public string GetBackendName() => "Ollama (Local)";
-}
-```
-
-**Remote (Azure OpenAI):**
-
-```csharp
-public class AzureOpenAIEmbeddingService : IEmbeddingService
-{
-    private readonly Kernel _kernel;
-    private readonly ITextEmbeddingGenerationService _service;
-
-    public AzureOpenAIEmbeddingService(string deploymentName, Uri endpoint, string apiKey)
-    {
-        var builder = Kernel.CreateBuilder();
-        builder.AddAzureOpenAITextEmbedding(deploymentName, endpoint, apiKey);
-
-        _kernel = builder.Build();
-        _service = _kernel.GetRequiredService<ITextEmbeddingGenerationService>();
-    }
-
-    public async Task<float[]> EmbedTextAsync(string text)
-    {
-        var embedding = await _service.GenerateEmbeddingAsync(text);
-        return embedding.ToArray();
-    }
-
-    public async Task<List<float[]>> EmbedBatchAsync(List<string> texts)
-    {
-        var list = new List<float[]>();
-        foreach (var text in texts)
-            list.Add(await EmbedTextAsync(text));
-        return list;
-    }
-
-    public string GetBackendName() => "Azure OpenAI (Remote)";
-}
-```
-
-**Hybrid (Local primary, Remote fallback):**
-
-```csharp
-public class HybridEmbeddingService : IEmbeddingService
-{
-    private readonly IEmbeddingService _primary;
-    private readonly IEmbeddingService _fallback;
-
-    public HybridEmbeddingService(IEmbeddingService primary, IEmbeddingService fallback)
-    {
-        _primary = primary;
-        _fallback = fallback;
-    }
-
-    public async Task<float[]> EmbedTextAsync(string text)
-    {
-        try
-        {
-            return await _primary.EmbedTextAsync(text);
-        }
-        catch
-        {
-            Console.WriteLine($"Primary failed ({_primary.GetBackendName()}), using fallback ({_fallback.GetBackendName()})");
-            return await _fallback.EmbedTextAsync(text);
-        }
-    }
-
-    public async Task<List<float[]>> EmbedBatchAsync(List<string> texts)
-    {
-        try
-        {
-            return await _primary.EmbedBatchAsync(texts);
-        }
-        catch
-        {
-            Console.WriteLine("Primary batch embedding failed, using fallback.");
-            return await _fallback.EmbedBatchAsync(texts);
-        }
-    }
-
-    public string GetBackendName() =>
-        $"{_primary.GetBackendName()} (with {_fallback.GetBackendName()} fallback)";
-}
-```
-
 ---
 
-### 7.2 Extensible LLM Service Interface
-
-```csharp
-public interface ILlmService
-{
-    Task<string> GenerateAsync(string prompt, string? systemPrompt = null);
-    Task<string> GenerateWithContextAsync(string query, string context);
-    string GetBackendName();
-}
-```
-
-**Local (Ollama / Mistral):**
-
-```csharp
-public class OllamaLlmService : ILlmService
-{
-    private readonly Kernel _kernel;
-    private readonly IChatCompletionService _service;
-
-    public OllamaLlmService(Uri endpoint)
-    {
-        var builder = Kernel.CreateBuilder();
-        builder.AddOllamaChatCompletion("mistral", endpoint);
-
-        _kernel = builder.Build();
-        _service = _kernel.GetRequiredService<IChatCompletionService>();
-    }
-
-    public async Task<string> GenerateAsync(string prompt, string? systemPrompt = null)
-    {
-        var messages = new List<ChatMessageContent>();
-        if (!string.IsNullOrEmpty(systemPrompt))
-            messages.Add(new ChatMessageContent(AuthorRole.System, systemPrompt));
-        messages.Add(new ChatMessageContent(AuthorRole.User, prompt));
-
-        var response = await _service.GetChatMessageContentAsync(messages);
-        return response.Content ?? "";
-    }
-
-    public Task<string> GenerateWithContextAsync(string query, string context)
-    {
-        var prompt = @$"
-            Based on the following context, answer the user's question concisely.
-
-            CONTEXT:
-            {context}
-
-            QUESTION:
-            {query}
-
-            ANSWER:";
-        return GenerateAsync(prompt);
-    }
-
-    public string GetBackendName() => "Ollama (Local Mistral)";
-}
-```
-
-**Remote (Azure OpenAI GPT‑4):**
-
-```csharp
-public class AzureOpenAILlmService : ILlmService
-{
-    private readonly Kernel _kernel;
-    private readonly IChatCompletionService _service;
-
-    public AzureOpenAILlmService(string deploymentName, Uri endpoint, string apiKey)
-    {
-        var builder = Kernel.CreateBuilder();
-        builder.AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey);
-
-        _kernel = builder.Build();
-        _service = _kernel.GetRequiredService<IChatCompletionService>();
-    }
-
-    public async Task<string> GenerateAsync(string prompt, string? systemPrompt = null)
-    {
-        var messages = new List<ChatMessageContent>();
-        if (!string.IsNullOrEmpty(systemPrompt))
-            messages.Add(new ChatMessageContent(AuthorRole.System, systemPrompt));
-        messages.Add(new ChatMessageContent(AuthorRole.User, prompt));
-
-        var response = await _service.GetChatMessageContentAsync(messages);
-        return response.Content ?? "";
-    }
-
-    public Task<string> GenerateWithContextAsync(string query, string context)
-    {
-        var prompt = @$"
-            Based on the following context, answer the user's question concisely.
-
-            CONTEXT:
-            {context}
-
-            QUESTION:
-            {query}
-
-            ANSWER:";
-        return GenerateAsync(prompt);
-    }
-
-    public string GetBackendName() => "Azure OpenAI (Remote GPT‑4)";
-}
-```
-
----
-
-### 7.3 Vector Store and Metrics
+### 6.2 Vector Store and Metrics
 
 ```csharp
 public class ChunkWithEmbedding
@@ -1385,7 +604,7 @@ public class QueryMetrics
 
 ---
 
-### 7.4 ExtensibleDocumentRAGSystem
+### 6.3 ExtensibleDocumentRAGSystem
 
 ```csharp
 public class ExtensibleDocumentRAGSystem
@@ -1522,7 +741,7 @@ public class ExtensibleDocumentRAGSystem
 
 ---
 
-### 7.5 Usage Scenarios
+### 6.4 Usage Scenarios
 
 ```csharp
 public class Program
@@ -1610,47 +829,8 @@ With this design, moving from local-only to cloud-only or hybrid is a constructo
 
 ---
 
-## 8. Deployment Checklist
 
-Before deploying:
-
-**Local SLM Setup:**
-- Ollama or ONNX runtime installed and tested
-- Embedding model downloaded and verified
-- LLM model (Mistral/Llama) tested locally
-- Performance benchmarked (latency, memory usage)
-
-**Vector Store:**
-- Qdrant or Weaviate deployed (separate from app)
-- Backup/recovery strategy in place
-- Index size estimated and storage allocated
-
-**Monitoring:**
-- Latency tracked (retrieval + generation)
-- Cost tracked (if using any API calls)
-- Error rates monitored
-- Chunk quality metrics tracked
-
-**Evaluation:**
-- Test set created (30–50 queries)
-- P@5 > 70%, R@5 > 65% achieved
-- Edge cases tested
-- Performance regression detection in place
-
----
-
-## 9. Deployment Scenarios at a Glance
-
-| Scenario | Embedding | LLM | Cost | Latency | Privacy |
-|----------|-----------|-----|------|---------|---------|
-| **Development** | Ollama | Ollama | 0 USD | ~500ms | ✅ Local |
-| **On-Premise** | ONNX | Ollama | 0 USD | ~200ms | ✅ Local |
-| **Cloud** | Azure | Azure | 20–100 USD/mo | ~100ms | ⚠️ Azure |
-| **Hybrid (Safe)** | Ollama→Azure | Ollama | 5–50 USD/mo | ~150ms | ✅ Local primary |
-
----
-
-## 10. Where This Fits: RAG as Our Agent's Knowledge Layer
+## 7. Where This Fits: RAG as Our Agent's Knowledge Layer
 
 This RAG pipeline with pluggable backends becomes the **knowledge layer** for agents:
 
@@ -1659,7 +839,7 @@ This RAG pipeline with pluggable backends becomes the **knowledge layer** for ag
 - **Tool-using agents**: RAG as a tool/function the agent can call
 - **Workflow automation**: Agents orchestrate retrieval + decision-making
 
-Semantic Kernel plugins let we create sophisticated pipelines entirely in .NET.
+Semantic Kernel plugins let us create sophisticated pipelines entirely in .NET.
 
 ---
 
