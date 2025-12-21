@@ -549,62 +549,7 @@ public interface IEmbeddingService
 ```
 ---
 
-### 6.2 Vector Store and Metrics
-
-```csharp
-public class ChunkWithEmbedding
-{
-    public string Id { get; set; }
-    public string Text { get; set; }
-    public Dictionary<string, string> Metadata { get; set; }
-    public float[] Embedding { get; set; }
-}
-
-public class VectorStore
-{
-    private readonly List<ChunkWithEmbedding> _chunks = new();
-
-    public void AddChunk(ChunkWithEmbedding chunk) => _chunks.Add(chunk);
-
-    public List<ChunkWithEmbedding> SearchSimilar(float[] queryEmbedding, int k)
-    {
-        return _chunks
-            .Select(c => (Chunk: c, Similarity: CosineSimilarity(queryEmbedding, c.Embedding)))
-            .OrderByDescending(x => x.Similarity)
-            .Take(k)
-            .Select(x => x.Chunk)
-            .ToList();
-    }
-
-    private static float CosineSimilarity(float[] a, float[] b)
-    {
-        float dot = 0, normA = 0, normB = 0;
-        for (int i = 0; i < a.Length; i++)
-        {
-            dot += a[i] * b[i];
-            normA += a[i] * a[i];
-            normB += b[i] * b[i];
-        }
-        return dot / (float)(Math.Sqrt(normA) * Math.Sqrt(normB));
-    }
-}
-
-public class QueryMetrics
-{
-    public string Query { get; set; }
-    public int RetrievedChunks { get; set; }
-    public int RetrievalLatencyMs { get; set; }
-    public int GenerationLatencyMs { get; set; }
-    public int TotalLatencyMs { get; set; }
-    public DateTime Timestamp { get; set; }
-    public string EmbeddingBackend { get; set; }
-    public string LlmBackend { get; set; }
-}
-```
-
----
-
-### 6.3 ExtensibleDocumentRAGSystem
+### 6.2 ExtensibleDocumentRAGSystem
 
 ```csharp
 public class ExtensibleDocumentRAGSystem
@@ -741,7 +686,7 @@ public class ExtensibleDocumentRAGSystem
 
 ---
 
-### 6.4 Usage Scenarios
+### 6.3 Usage Scenarios
 
 ```csharp
 public class Program
