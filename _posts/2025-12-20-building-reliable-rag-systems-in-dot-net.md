@@ -534,8 +534,7 @@ var v2 = evaluator.EvaluateSystem(testSet);
 
 ---
 
-## 6. Complete Extensible End-to-End Example  
-### Local SLM, Remote LLM, and Hybrid – One Codebase
+## 6. Extensible Example  
 
 ### 6.1 Extensible Embedding Service Interface
 
@@ -686,95 +685,6 @@ public class ExtensibleDocumentRAGSystem
 
 ---
 
-### 6.3 Usage Scenarios
-
-```csharp
-public class Program
-{
-    public static async Task Main()
-    {
-        Console.WriteLine("=== EXTENSIBLE RAG SYSTEM DEMO ===\n");
-
-        Console.WriteLine("SCENARIO 1: Local SLMs (Ollama)\n");
-        await RunLocalOnlyDemo();
-
-        Console.WriteLine("\n----------------------------------------\n");
-
-        Console.WriteLine("SCENARIO 2: Hybrid (Local with Azure fallback)\n");
-        await RunHybridDemo();
-
-        Console.WriteLine("\n----------------------------------------\n");
-
-        Console.WriteLine("SCENARIO 3: Azure OpenAI only\n");
-        await RunAzureOnlyDemo();
-    }
-
-    private static async Task RunLocalOnlyDemo()
-    {
-        var embedding = new OllamaEmbeddingService(new Uri("http://localhost:11434"));
-        var llm = new OllamaLlmService(new Uri("http://localhost:11434"));
-        var rag = new ExtensibleDocumentRAGSystem(embedding, llm);
-
-        var docs = new List<string>
-        {
-            @"# Authentication Guide
-                ## OAuth 2.0
-                Our API uses OAuth 2.0 for authentication.
-                Steps: Register app → Get credentials → Exchange for token",
-
-            @"# Refund Policy
-                ## Digital Goods
-                Digital goods can be refunded within 14 days if unused."
-        };
-
-        await rag.IngestDocumentsAsync(docs);
-
-        var (answer, metrics) = await rag.GenerateAnswerAsync("How do I authenticate?");
-        Console.WriteLine($"Q: How do I authenticate?");
-        Console.WriteLine($"A: {answer}");
-        Console.WriteLine($"Latency: {metrics.TotalLatencyMs} ms\n");
-
-        rag.PrintMetricsSummary();
-    }
-
-    private static async Task RunHybridDemo()
-    {
-        var localEmbedding = new OllamaEmbeddingService(new Uri("http://localhost:11434"));
-        var azureEmbedding = new AzureOpenAIEmbeddingService(
-            "text-embedding-3-small",
-            new Uri("https://[resource].openai.azure.com/"),
-            "Our-key");
-
-        var hybrid = new HybridEmbeddingService(localEmbedding, azureEmbedding);
-        var llm = new OllamaLlmService(new Uri("http://localhost:11434"));
-
-        var rag = new ExtensibleDocumentRAGSystem(hybrid, llm);
-        Console.WriteLine("Hybrid embedding: local primary, Azure fallback.");
-    }
-
-    private static async Task RunAzureOnlyDemo()
-    {
-        var embedding = new AzureOpenAIEmbeddingService(
-            "text-embedding-3-small",
-            new Uri("https://[resource].openai.azure.com/"),
-            "Our-key");
-
-        var llm = new AzureOpenAILlmService(
-            "gpt-4",
-            new Uri("https://[resource].openai.azure.com/"),
-            "Our-key");
-
-        var rag = new ExtensibleDocumentRAGSystem(embedding, llm);
-        Console.WriteLine("Using Azure OpenAI for embeddings and LLM.");
-    }
-}
-```
-
-With this design, moving from local-only to cloud-only or hybrid is a constructor change, not a rewrite.
-
----
-
-
 ## 7. Where This Fits: RAG as Our Agent's Knowledge Layer
 
 This RAG pipeline with pluggable backends becomes the **knowledge layer** for agents:
@@ -795,7 +705,6 @@ we now have:
 - **Domain-specific chunking** for technical, legal, code, FAQ, and time-series data
 - **Local and remote embedding options**, all behind a single interface
 - **Evaluation framework** to measure and improve retrieval accuracy
-- **Observable metrics** for every layer of the pipeline
 
 RAG is infrastructure. Build it intentionally, measure it rigorously, and keep it simple until we have evidence we need complexity.
 
