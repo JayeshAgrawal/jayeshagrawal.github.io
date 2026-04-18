@@ -19,7 +19,7 @@ Technical Leadership: Tech Lead for cross-functional teams. Expert in designing 
 
 AI Agent & Intelligent Workflows: Specializing in designing and implementing AI Agent frameworks, orchestration (LangGraph), and semantic search pipelines. Passionate about building practical, scalable AI integrations that enhance productivity and decision-making.
 
-Full-Stack Mastery: Deep expertise in the .NET ecosystem (C#, ASP.NET Core), modern front ends (Angular), and cloud-native development on Microsoft Azure. Proficient in Python for AI/ML tooling.
+Full-Stack Mastery: Deep expertise in the .NET ecosystem (C#, ASP.NET Core), modern front ends (Angular), and cloud-native development on Microsoft Azure, Python for AI/ML tooling.
 
 Cloud & Data: Extensive experience with Azure services, micro services, SQL/NoSQL databases, and SharePoint Online integration.
 
