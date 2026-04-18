@@ -1,11 +1,11 @@
 ---
 title: "Your Website Is an Address, Agents Need a Neighborhood."
 author: "Jayesh Agrawal"
-date: 2026-04-19 02:55:00 +0530
+date: 2026-04-19 01:00:00 +0530
 categories: [aiagent]
 tags: [aiagent, semantickernel, ragsystems, dotnet]
 seo:
-  date_modified: 2026-04-19 02:55:00 +0530
+  date_modified: 2026-04-19 01:00:00 +0530
 ---
 ---
 
