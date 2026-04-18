@@ -11,11 +11,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
-  {%- if page.layout == "home" -%}
+    {%- if page.layout == "home" -%}
     {{- site.title -}}
-  {%- else -%}
+    {%- else -%}
     {{ page.title }} | {{ site.title }}
-  {%- endif -%}
+    {%- endif -%}
   </title>
 
   {% seo title=false %}
@@ -28,81 +28,84 @@
 
   <!-- ga -->
   {% if jekyll.environment == 'production' %}
-    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials">
-    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials">
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
 
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-    {% if site.google_analytics.proxy_baseurl and site.google_analytics.pv %}
-      <link rel="preconnect" href="{{ site.google_analytics.proxy_baseurl }}" crossorigin="use-credentials">
-      <link rel="dns-prefetch" href="{{ site.google_analytics.proxy_baseurl }}">
-    {% endif %}
+  {% if site.google_analytics.proxy_baseurl and site.google_analytics.pv %}
+  <link rel="preconnect" href="{{ site.google_analytics.proxy_baseurl }}" crossorigin="use-credentials">
+  <link rel="dns-prefetch" href="{{ site.google_analytics.proxy_baseurl }}">
   {% endif %}
+  {% endif %}
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SQCWQ8R9Z7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-SQCWQ8R9Z7');
+  </script>
 
   <!-- jsdelivr CDN -->
   <link rel="preconnect" href="cdn.jsdelivr.net">
   <link rel="dns-prefetch" href="cdn.jsdelivr.net">
 
-  <link rel="preload" as="style"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+  <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
     integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin>
 
   <link rel="preload" as="style"
     href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css"
-    integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ="
-    crossorigin="anonymous">
+    integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous">
 
   <link rel="preload" as="style" href="{{ site.baseurl }}/assets/css/main.css">
 
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
     integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous">
 
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css"
-    integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ="
-    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css"
+    integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous">
 
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
 
   {% if page.layout == 'home' %}
-    <link rel="preload" href="{{ site.baseurl }}/assets/css/home.css" as="style">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/home.css">
+  <link rel="preload" href="{{ site.baseurl }}/assets/css/home.css" as="style">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/home.css">
   {% endif %}
 
   {% if page.title == 'Categories' and page.layout == 'page' %}
-    <link rel="preload" href="{{ site.baseurl }}/assets/css/categories.css" as="style">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/categories.css">
+  <link rel="preload" href="{{ site.baseurl }}/assets/css/categories.css" as="style">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/categories.css">
   {% endif %}
 
   {% if page.title == 'Tags' and page.layout == 'page' %}
-    <link rel="preload" href="{{ site.baseurl }}/assets/css/tags.css" as="style">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/tags.css">
+  <link rel="preload" href="{{ site.baseurl }}/assets/css/tags.css" as="style">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/tags.css">
   {% endif %}
 
   {% if page.layout == 'category' or page.layout == 'tag' %}
-    <link rel="preload" href="{{ site.baseurl }}/assets/css/category-tag.css" as="style">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/category-tag.css">
+  <link rel="preload" href="{{ site.baseurl }}/assets/css/category-tag.css" as="style">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/category-tag.css">
   {% endif %}
 
   {% if page.title == 'Archives' and page.layout == 'page' %}
-    <link rel="preload" href="{{ site.baseurl }}/assets/css/archives.css" as="style">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/archives.css">
+  <link rel="preload" href="{{ site.baseurl }}/assets/css/archives.css" as="style">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/archives.css">
   {% endif %}
 
   {% if page.title == 'About' and page.layout == 'page' %}
-    <link rel="preload" href="{{ site.baseurl }}/assets/css/syntax.css" as="style">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/syntax.css">
+  <link rel="preload" href="{{ site.baseurl }}/assets/css/syntax.css" as="style">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/syntax.css">
   {% endif %}
 
 
-  <link rel="preload" as="script"
-    href="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"
+  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
 
-  <link rel="preload" as="script"
-    href="https://cdn.jsdelivr.net/npm/popper.js@1.15.0/dist/umd/popper.min.js"
+  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/popper.js@1.15.0/dist/umd/popper.min.js"
     integrity="sha256-fTuUgtT7O2rqoImwjrhDgbXTKUwyxxujIMRIK7TbuNU=" crossorigin>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"
@@ -121,28 +124,28 @@
   <script src="{{ site.baseurl }}/assets/js/dist/commons.js" async></script>
 
   {% if page.layout == 'home' or page.layout == 'post' %}
-    <script src="{{ site.baseurl }}/assets/js/dist/timeago.min.js" async></script>
-    {% if site.google_analytics.pv %}
-      <script src="{{ site.baseurl }}/assets/lib/countUp.min.js" async></script>
-      <script src="{{ site.baseurl }}/assets/js/dist/pageviews.min.js" async></script>
-    {% endif %}
+  <script src="{{ site.baseurl }}/assets/js/dist/timeago.min.js" async></script>
+  {% if site.google_analytics.pv %}
+  <script src="{{ site.baseurl }}/assets/lib/countUp.min.js" async></script>
+  <script src="{{ site.baseurl }}/assets/js/dist/pageviews.min.js" async></script>
+  {% endif %}
   {% endif %}
 
   {% if page.layout == 'post' %}
-    <link rel="preload" as="style" href="{{ site.baseurl }}/assets/css/post.css">
-    <link rel="preload" as="style" href="{{ site.baseurl }}/assets/css/syntax.css">
+  <link rel="preload" as="style" href="{{ site.baseurl }}/assets/css/post.css">
+  <link rel="preload" as="style" href="{{ site.baseurl }}/assets/css/syntax.css">
 
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/post.css">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/syntax.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/post.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/syntax.css">
 
-    {% if site.toc and page.toc %}
-      <link rel="preload" as="style" href="{{ site.baseurl }}/assets/lib/bootstrap-toc-1.0.1/bootstrap-toc.min.css">
-      <link rel="preload" as="script" href="{{ site.baseurl }}/assets/lib/bootstrap-toc-1.0.1/bootstrap-toc.min.js">
+  {% if site.toc and page.toc %}
+  <link rel="preload" as="style" href="{{ site.baseurl }}/assets/lib/bootstrap-toc-1.0.1/bootstrap-toc.min.css">
+  <link rel="preload" as="script" href="{{ site.baseurl }}/assets/lib/bootstrap-toc-1.0.1/bootstrap-toc.min.js">
 
-      <link rel="stylesheet" href="{{ site.baseurl }}/assets/lib/bootstrap-toc-1.0.1/bootstrap-toc.min.css" />
-      <script src="{{ site.baseurl }}/assets/lib/bootstrap-toc-1.0.1/bootstrap-toc.min.js" async></script>
-      <script src="{{ site.baseurl }}/assets/js/dist/toc.min.js" async></script>
-    {% endif %}
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/lib/bootstrap-toc-1.0.1/bootstrap-toc.min.css" />
+  <script src="{{ site.baseurl }}/assets/lib/bootstrap-toc-1.0.1/bootstrap-toc.min.js" async></script>
+  <script src="{{ site.baseurl }}/assets/js/dist/toc.min.js" async></script>
+  {% endif %}
 
   {% endif %}
 
