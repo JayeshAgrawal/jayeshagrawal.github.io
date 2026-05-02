@@ -8,28 +8,60 @@ title: About
 # MIT License
 ---
 ## Jayesh Agrawal
-### Leading Full-Stack Solution Development | .NET, Azure, AI Agent Ecosystems | E-Discovery, FinTech, SaaS
-I am a results-driven Technical Lead with over 11 years of experience designing, building, and leading the delivery of enterprise-scale cloud applications, micro services, and intelligent AI Agent ecosystems.
+### Full Stack Builder | From Idea → Architecture → Production | .NET • C# • Angular • Python • Azure • AI Agents | Designing Scalable Intelligent Platforms
+I am a results-driven Full-Stack Builder focused on designing, building, and scaling enterprise-grade cloud applications, microservices ecosystems, and intelligent AI-powered platforms. I I design and deliver enterprise-scale systems by evolving legacy monolithic platforms into scalable, cloud-native, distributed and AI-enabled platforms.
 
-My expertise bridges deep technical leadership with hands-on development in modern stacks, currently focused on design autonomous AI agent workflows and semantic reasoning systems to solve complex business problems.
 
-Core Technical & Leadership Competencies:
 
-Technical Leadership: Tech Lead for cross-functional teams. Expert in designing clean, scalable architectures, driving technical strategy, and ensuring high-quality delivery in Agile/Scrum environments.
+My strength lies in combining hands-on full-stack engineering with modernization strategy, enabling organizations to transition from tightly coupled systems to modular microservices, event-driven platforms, and intelligent AI ecosystems-without disrupting business continuity.
 
-AI Agent & Intelligent Workflows: Specializing in designing and implementing AI Agent frameworks, orchestration (LangGraph), and semantic search pipelines. Passionate about building practical, scalable AI integrations that enhance productivity and decision-making.
 
-Full-Stack Mastery: Deep expertise in the .NET ecosystem (C#, ASP.NET Core), modern front ends (Angular), and cloud-native development on Microsoft Azure, Python for AI/ML tooling.
 
-Cloud & Data: Extensive experience with Azure services, micro services, SQL/NoSQL databases, and SharePoint Online integration.
+## Core Technical & Leadership Strengths:
 
-Domain Experience: Proven success delivering high-impact solutions in regulated and complex domains including E-Discovery/Legal Tech, Tax & Financial Services, Hospitality, and Document Management Systems.
+### Platform Modernization & Cloud Transformation:
+Lead large-scale modernization initiatives, decomposing monolithic applications into domain-aligned microservices using patterns like Strangler Fig, API-first design, and domain-driven. Focus on scalability, resilience, and independent deployable. Drive end-to-end transformation of legacy platforms into cloud-native architectures on Microsoft Azure, including containerization, CI/CD enablement, and observability improvements.
 
-Current Focus:
-My current passion lies at the intersection of robust software engineering and applied AI. I am actively exploring and building with AI Agents, workflow automation using Lang Graph, RAG architectures, and semantic knowledge systems to create the next generation of intelligent applications.
 
-Let's Connect:
-I am always interested in connecting with professionals, leaders, and innovators who are building the future with cloud technology, AI Agentic systems, or modern .NET ecosystems.
+
+### Full-Stack Engineering & Architecture:
+Hands-on expertise across backend and frontend systems using .NET (C#, ASP.NET Core), Angular, and Python. Strong focus on clean architecture, modular design, scalability, and performance optimization.
+
+
+
+###  Technical Leadership: 
+Lead cross-functional teams, define technical roadmaps, and ensure high-quality delivery in Agile environments.
+
+
+
+### AI Agents & Intelligent Systems:
+Design and implement AI-powered systems using agent frameworks, orchestration (Lang Graph), and semantic search pipelines. Focused on building scalable AI integrations that enhance automation and decision-making.
+
+ 
+
+### Data & Integration:
+
+Strong expertise in SQL/NoSQL databases, API design.
+
+
+
+### Domain Expertise:
+Delivered scalable, high-impact solutions across complex and regulated domains:
+ - E-Discovery / Legal Tech 
+ - Tax & Financial Services
+ - Document & CMS
+
+
+
+### Current Focus:
+Driving innovation at the intersection of modern engineering and applied AI, with focus on:
+ - Platform modernization + AI enablement 
+ - AI Agent workflows (Lang Graph, RAG, Semantic Knowledge, Context Aware Systems)
+
+
+
+### Let's Connect: 
+I’m interested in collaborating with builders, architects, and innovators working on AI-first full-stack systems, cloud-native platforms, and modern full-stack ecosystems that solve complex business challenges at scale.
 
 - [GitHub](https://github.com/JayeshAgrawal)
 - [LinkedIn](https://www.linkedin.com/in/jayeshagrawal001/)

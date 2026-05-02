@@ -1,2 +1,2 @@
 # The Techie Crunch
-## Leading Full-Stack Solution Development | .NET, Azure, AI Agent Ecosystems | E-Discovery, FinTech, SaaS
+## Full Stack Builder | From Idea → Architecture → Production | .NET • C# • Angular • Python • Azure • AI Agents | Designing Scalable Intelligent Platforms
